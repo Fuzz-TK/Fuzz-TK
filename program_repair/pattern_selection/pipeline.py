@@ -221,7 +221,7 @@ class Pipeline:
 
 if __name__ == "__main__":
 	pipeline = Pipeline("8:1:1", 10000, "data/")
-	pipeline.run()
+	#pipeline.run()
 	pipeline.run_d4j()
 	print("done.")
 

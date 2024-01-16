@@ -25,9 +25,6 @@ for version in spectrum:
 	current_label = [1] * len(spectrum[version])
 	for faulty_index in faulty_stmts[version]:
 		current_label[faulty_index - 1] = 0
-	print(faulty_stmts[version])
-	print(version)
-	print(current_label)
 	label[version] = current_label
 
 # parse data

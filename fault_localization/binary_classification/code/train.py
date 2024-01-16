@@ -5,7 +5,7 @@ import time
 import pickle
 import random
 from gensim.models.word2vec import Word2Vec
-from fault_localization.binary_classification.code.model import BinaryClassifier
+from model import BinaryClassifier
 
 
 def get_batch(x, y, idx, bs):
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
 	HIDDEN_DIM = 50
 	EPOCHS = 30
-	BATCH_SIZE = 2       #改动64
+	BATCH_SIZE = 64
 	LABELS = 2
 	USE_GPU = True
 	MAX_TOKENS = pretrain_vectors.shape[0]
@@ -145,7 +145,6 @@ if __name__ == "__main__":
 		while i < len(val_x):
 			batch = get_batch(val_x, val_y, i, BATCH_SIZE)
 			val_inputs, val_labels = batch
-			print(val_inputs.data)
 			if USE_GPU:
 				val_inputs = val_inputs.cuda()
 				val_labels = val_labels.cuda()
@@ -154,9 +153,6 @@ if __name__ == "__main__":
 			loss = loss_function(output, val_labels)
 			
 			_, predicted = torch.max(output.data, 1)
-			print(predicted)
-			print(" ")
-			print(output.data)
 			total_acc += (predicted == val_labels).sum().item()
 			total += len(val_inputs)
 			total_loss += loss.item() * len(val_inputs)

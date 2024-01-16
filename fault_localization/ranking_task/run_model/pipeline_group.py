@@ -23,8 +23,8 @@ for group_index in range(10):
 	data_path = "./data/{}/".format(group_index + 1)
 	test_versions = versions[group_index * step: (group_index + 1) * step]
 	train_versions = [version for version in versions if version not in test_versions]
-	print(test_versions)
-	print(train_versions)
+	#print(test_versions)
+	#print(train_versions)
 	for version in train_versions:
 		pos_indices = [index for (index, value) in enumerate(y_data[version]) if value == 0]
 		neg_indices = [index for (index, value) in enumerate(y_data[version]) if value == 1]

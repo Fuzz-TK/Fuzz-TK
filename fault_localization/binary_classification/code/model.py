@@ -13,10 +13,10 @@ class BinaryClassifier(nn.Module):
 		self.label_size = label_size
 		self.activation = torch.tanh
 		self.num_layers = 1
-		self.embedding = nn.Embedding(vocab_size, embedding_dim)
 
-		# if pretrained_weight is not None:
-		# 	self.embedding.weight.data.copy_(torch.from_numpy(pretrained_weight))
+		self.embedding = nn.Embedding(vocab_size, embedding_dim)
+		#if pretrained_weight is not None:
+		#	self.embedding.weight.data.copy_(torch.from_numpy(pretrained_weight))
 		self.embedding.weight.requires_grad = True
 		self.encoder = nn.LSTM(input_size=embedding_dim, hidden_size=hidden_dim, num_layers=self.num_layers, bidirectional=True, batch_first=True)
 		self.decoder = nn.Linear(hidden_dim * 2, self.label_size)

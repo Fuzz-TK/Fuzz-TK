@@ -21,7 +21,7 @@ class ResidualBlock(nn.Module):
         #out = self.relu(out)
         #out = self.conv2(out)
 
-        #out += residual  # 跳跃连接
+        #out += residual  # 
         out = self.linear_layer(x)
 
         out = self.relu(out)
@@ -87,7 +87,7 @@ class MLP(nn.Module):
         #all_features_orig = all_features_orig.squeeze(dim=1)
         #print(all_features.shape)
         #print(all_features_orig.shape)
-        #all_features += all_features_orig  # 将原始输入与注意力层输出相加
+        #all_features += all_features_orig  # 
         all_features = self.dropout(self.activation(self.mlp_all_features(all_features)))
         #all_features = self.batch_norm(all_features)
 

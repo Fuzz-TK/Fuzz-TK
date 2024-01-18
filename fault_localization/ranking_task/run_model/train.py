@@ -90,15 +90,15 @@ if __name__ == "__main__":
 	warmup_factor = 0.3
 
 
-	# 最终学习率，为lr*warmup_lambda函数计算出的值
+	#
 	def warmup_lambda(epoch):
 		if epoch < warmup_epochs:
-			# epoch从0开始，避免为0
+			#
 			return (epoch + 1) / warmup_epochs
 		return 1
 
 
-	# 定义学习率调度器
+	# 
 	scheduler = LambdaLR(optimizer, lr_lambda=warmup_lambda)
 	print_parameter_statistics(model)
 
@@ -139,16 +139,16 @@ if __name__ == "__main__":
 			positive_mask = output_pos >= output_neg
 			negative_mask = output_neg > output_pos
 
-			weights[positive_mask] = 1.5  # 给正样本赋予更高的权重
-			weights[negative_mask] = 0.6  # 给负样本赋予较低的权重
+			weights[positive_mask] = 1.5  # 
+			weights[negative_mask] = 0.6  # 
 			# hinge loss
 			weighted_loss = weights * torch.max(torch.zeros_like(output_pos), 0.107 - (output_pos - output_neg))
 			loss = weighted_loss.mean()
-			optimizer.zero_grad()  # 清除梯度
-			loss.backward()  # 反向传播计算梯度
-			optimizer.step()  # 根据梯度更新参数
+			optimizer.zero_grad()  # 
+			loss.backward()  # 
+			optimizer.step()  # 
 			scheduler.step()
-			# optimizer.zero_grad()  # 清除梯度
+			# optimizer.zero_grad()  # 
 			total += len(batch_x_pos)
 			total_loss += loss.item() * len(batch_x_pos)
 

@@ -16,7 +16,7 @@ from fault_localization.binary_classification.code.model import BinaryClassifier
 def load_from_file(file_path):
 	with open(file_path, "rb") as file:
 		return pickle.load(file)
-# 加载函数
+# 
 
 if __name__ == "__main__":
 	fix_patterns = ["InsertMissedStmt", "InsertNullPointerChecker", "MoveStmt", "MutateConditionalExpr",
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 		# predicting for defects4j data (11-dimensional semantic features)
 		model.load_state_dict(torch.load("./model_save/{}/model_params.pkl".format(fix_pattern)))
 		model.eval()
-		# 修改部分
+		# 
 
 
 		for project in d4j_data:
@@ -59,20 +59,20 @@ if __name__ == "__main__":
 				out_semantic_features[project] = []
 			output = model(input_samples)
 			output = torch.softmax(output, dim=-1)
-			# 修改
+			# 
 			fuzzy_output = np.empty(output.shape)
 			for i, sample in enumerate(output):
-				# 将概率分布转换为模糊集
+				# 
 				x = np.arange(len(sample))
 				membership_functions = [fuzz.trimf(x, [0, 0, 1]) for _ in range(len(sample))]  # 使用三角形函数模糊集进行模糊化
 				fuzzy_sets = [fuzz.interp_membership(x, membership_function, sample.cpu().detach().numpy())
 							  for membership_function in membership_functions]
-				# 模糊聚合
+				# 
 				fuzzy_output[i] = fuzz.defuzz(x, np.max(fuzzy_sets, axis=0), 'centroid')
 			output = fuzzy_output[:, 0].tolist()
 
 			for index, checker_flag in enumerate(checker_info[project]):
-				# 第index行代码，checker_flag是11维向量
+				# 
 				# print(len(checker_info[project]))
 				if fix_patterns.index(fix_pattern) == 0:
 					if checker_flag[fix_patterns.index(fix_pattern)] == 0:
